@@ -54,7 +54,10 @@ public class InputRelated
         {
             return inputText;
         }
-        
+        if (!TheNumberOfDecimalPlacesAreBelowNine(inputSymbol, inputText)) 
+        {
+            return inputText;
+        }
         return inputText + inputSymbol;
     }
     #endregion
@@ -112,5 +115,9 @@ public class InputRelated
     private bool IsCharAnOperator(char character) => character == '.' || character == '/' || character == 'x' || character == '+';
     private bool IsCharAnOperator(char character, char minus = '-') => character == minus;
     private bool TryingToAddTwoMinusAtTheBeggining(char inputSymbol, string currentInputText) => currentInputText.Length == 1 && currentInputText[0] == '-' && inputSymbol == '-';
+    private bool TheNumberOfDecimalPlacesAreBelowNine(char inputSymbol, string currentInputText) 
+    {
+        return currentInputText.Substring(currentInputText.LastIndexOf(',')).Length < 10;
+    }
     #endregion
 }
