@@ -23,6 +23,7 @@ public class InputRelated
             return inputText;
         }
         if (inputText.Length == 0 && inputSymbol == '-') return "-";
+        if (inputText.StartsWith("-") && inputSymbol == '-') return "";
         if (inputText.Length == 0 && inputSymbol == '+') return "";
         if (inputText.EndsWith("-") && inputSymbol == '+')
         {

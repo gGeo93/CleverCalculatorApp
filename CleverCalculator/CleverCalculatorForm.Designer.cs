@@ -232,7 +232,6 @@
             this.calculatorInput.Name = "calculatorInput";
             this.calculatorInput.Size = new System.Drawing.Size(241, 58);
             this.calculatorInput.TabIndex = 17;
-            this.calculatorInput.Click += new System.EventHandler(this.Clear_Btn);
             // 
             // outputList
             // 
@@ -279,7 +278,7 @@
             this.Controls.Add(this.btn2);
             this.Controls.Add(this.btn0);
             this.Name = "CleverCalculatorForm";
-            this.Text = "Form1";
+            this.Text = "Clever Calculator Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 
