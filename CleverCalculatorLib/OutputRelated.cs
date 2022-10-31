@@ -10,7 +10,7 @@ namespace CleverCalculatorLib;
 
 public class OutputRelated
 {
-    #region OperationRelatedProcedures
+    #region OperationRelatedMainProcedure
     public void MakeNumericalOperationWithPriority(string currentOperationState, List<string> outputItems, ref string propableExceptionMessage)
     {
         outputItems.Add(currentOperationState);
@@ -34,7 +34,7 @@ public class OutputRelated
     }
     #endregion
     
-    #region RecursiveCalledProcedure
+    #region RecursivelyCalledProcedure
     private void Operation(string leftPart, string rightPart, string currentOperationState, char operationSymbol, List<string> outputItems, bool isStartingWithMinus, ref string propableExceptionMessage)
     {
         int indexOfOperatorSymbol = PositionOfOperator(currentOperationState, operationSymbol);
@@ -76,66 +76,75 @@ public class OutputRelated
     #endregion
 
     #region SubMethods
-    private void DoesTheOperationContinue(string currentOperationState, string leftPart, string rightPart, List<string> outputItems,bool isStartingWithMinus, ref string propableExceptionMessage) 
+    private int PositionOfOperator(string currentOperationState, char operationSymbol)
     {
-        if (currentOperationState.Any(chr => chr == '/'))
-            Operation(leftPart, rightPart, currentOperationState, '/', outputItems, isStartingWithMinus, ref propableExceptionMessage);
-        else if (currentOperationState.Any(chr => chr == 'x'))
-            Operation(leftPart, rightPart, currentOperationState, 'x', outputItems, isStartingWithMinus, ref propableExceptionMessage);
-        else if (currentOperationState.Any(chr => chr == '+'))
-            Operation(leftPart, rightPart, currentOperationState, '+', outputItems, isStartingWithMinus, ref propableExceptionMessage);
-        else if (currentOperationState.Any(chr => chr == '-'))
-            Operation(leftPart, rightPart, currentOperationState, '-', outputItems, isStartingWithMinus, ref propableExceptionMessage);
+        return currentOperationState.IndexOf(operationSymbol);
     }
-    private void ConsequencesOfStartingWithMinus(ref string currentOperationState, ref bool isStartingWithMinus)
+    private bool CheckIfRightPartIsNegative(ref string currentOperationState, char operationSymbol, int indexOfOperatorSymbol)
     {
-        if (currentOperationState.StartsWith('-'))
+        bool rightPartIsNegative = false;
+
+        if ((operationSymbol == 'x' || operationSymbol == '/')
+            && indexOfOperatorSymbol < currentOperationState.Length - 1
+            && currentOperationState[indexOfOperatorSymbol + 1] == '-')
         {
-            currentOperationState = currentOperationState.Remove(0, 1);
-            isStartingWithMinus = true;
+            rightPartIsNegative = true;
+            currentOperationState = currentOperationState.Remove(indexOfOperatorSymbol + 1, 1);
+        }
+
+        return rightPartIsNegative;
+    }
+
+    private string FirstCurrentOperationState(string currentOperationState, int indexOfOperatorSymbol)
+    {
+        return currentOperationState.Substring(0, indexOfOperatorSymbol);
+    }
+
+    private int FindTheLeftLimitOfCurrentOperationState(string firstCurrentOperationState)
+    {
+        return firstCurrentOperationState.LastIndexOf(firstCurrentOperationState.LastOrDefault(chr => chr == '/' || chr == 'x' || chr == '+' || chr == '-'));
+    }
+
+    private string SpecifyTheLeftPartOfTheOperation(string currentOperationState, int indexOfOperatorSymbol, string firstCurrentOperationState, ref int leftLimit)
+    {
+        string leftPart;
+        if (leftLimit == 0)
+        {
+            leftPart = firstCurrentOperationState.Substring(leftLimit, firstCurrentOperationState.Length);
+        }
+        else if (currentOperationState.Count(chr => chr == '/' || chr == 'x' || chr == '+' || chr == '-') == 1)
+        {
+            leftLimit = 0;
+            leftPart = firstCurrentOperationState.Substring(leftLimit, indexOfOperatorSymbol - leftLimit);
+        }
+        else
+        {
+            leftPart = firstCurrentOperationState.Substring(leftLimit + 1, indexOfOperatorSymbol - leftLimit - 1);
+        }
+
+        return leftPart;
+    }
+
+    private void MakeLeftPartNegative(ref string leftPart, ref string currentOperationState, bool isStartingWithMinus, ref int indexOfOperatorSymbol)
+    {
+        if (isStartingWithMinus && leftPart.Count(op => op == '/' || op == 'x' || op == '+' || op == '-') == 0)
+        {
+            leftPart = leftPart.Insert(0, "-");
+            currentOperationState = currentOperationState.Insert(0, "-");
+            indexOfOperatorSymbol += 1;
         }
     }
 
-    private bool IsTheNewOperationStartsWithAminus(string currentOperationState, bool isStartingWithMinus)
+    private string SpecifyTheRightPartOfTheOperation(string currentOperationState, int indexOfOperatorSymbol)
     {
-        if (isStartingWithMinus
-                    &&
-                    currentOperationState.Count(symbol =>
-                       symbol == '/'
-                    || symbol == 'x'
-                    || symbol == '+'
-                    || symbol == '-') == 1)
-        {
-            isStartingWithMinus = false;
-        }
+        string rightPart;
+        List<char> rightCurrentOperation = currentOperationState.ToList<char>();
 
-        return isStartingWithMinus;
-    }
+        int rightLimit = rightCurrentOperation.FindIndex(indexOfOperatorSymbol + 1, chr => chr == '/' || chr == 'x' || chr == '-' || chr == '+');
+        if (rightLimit == -1) rightLimit = currentOperationState.Length;
 
-    private string ReplaceThdifferentCombinationsOfMinusAndPlus(string currentOperationState)
-    {
-        if (currentOperationState.Contains("--")) currentOperationState = currentOperationState.Replace("--", "+");
-        if (currentOperationState.Contains("+-")) currentOperationState = currentOperationState.Replace("+-", "-");
-        if (currentOperationState.Contains("-+")) currentOperationState = currentOperationState.Replace("-+", "-");
-        return currentOperationState;
-    }
-
-    private string ReplaceThePreviousOperationWithTheResult(string leftPart, string rightPart, string currentOperationState, char operationSymbol, float result)
-    {
-        string wholeOperation = leftPart + operationSymbol + rightPart;
-
-        currentOperationState = currentOperationState.Replace(wholeOperation, result.ToString());
-        return currentOperationState;
-    }
-
-    private string TryingToDivideByZeroException()
-    {
-        return "Cannot divide by zero";
-    }
-
-    private bool CheckIfThereIsAdivisionWithZero(string rightPart, char operationSymbol)
-    {
-        return operationSymbol == '/' && rightPart == "0";
+        rightPart = currentOperationState.Substring(indexOfOperatorSymbol + 1, rightLimit - indexOfOperatorSymbol - 1);
+        return rightPart;
     }
 
     private float ExecuteTheCurrentOperation(string leftPart, string rightPart, char operationSymbol, bool rightPartIsNegative)
@@ -163,76 +172,67 @@ public class OutputRelated
         return result;
     }
 
-    private string SpecifyTheRightPartOfTheOperation(string currentOperationState, int indexOfOperatorSymbol)
+    private bool CheckIfThereIsAdivisionWithZero(string rightPart, char operationSymbol)
     {
-        string rightPart;
-        List<char> rightCurrentOperation = currentOperationState.ToList<char>();
-
-        int rightLimit = rightCurrentOperation.FindIndex(indexOfOperatorSymbol + 1, chr => chr == '/' || chr == 'x' || chr == '-' || chr == '+');
-        if (rightLimit == -1) rightLimit = currentOperationState.Length;
-
-        rightPart = currentOperationState.Substring(indexOfOperatorSymbol + 1, rightLimit - indexOfOperatorSymbol - 1);
-        return rightPart;
+        return operationSymbol == '/' && rightPart == "0";
     }
 
-    private void MakeLeftPartNegative(ref string leftPart, ref string currentOperationState, bool isStartingWithMinus, ref int indexOfOperatorSymbol)
+    private string TryingToDivideByZeroException()
     {
-        if (isStartingWithMinus && leftPart.Count(op => op == '/' || op == 'x' || op == '+' || op == '-') == 0)
+        return "Cannot divide by zero";
+    }
+
+    private string ReplaceThePreviousOperationWithTheResult(string leftPart, string rightPart, string currentOperationState, char operationSymbol, float result)
+    {
+        string wholeOperation = leftPart + operationSymbol + rightPart;
+
+        currentOperationState = currentOperationState.Replace(wholeOperation, result.ToString());
+        return currentOperationState;
+    }
+
+    private string ReplaceThdifferentCombinationsOfMinusAndPlus(string currentOperationState)
+    {
+        if (currentOperationState.Contains("--")) currentOperationState = currentOperationState.Replace("--", "+");
+        if (currentOperationState.Contains("+-")) currentOperationState = currentOperationState.Replace("+-", "-");
+        if (currentOperationState.Contains("-+")) currentOperationState = currentOperationState.Replace("-+", "-");
+        return currentOperationState;
+    }
+
+    private bool IsTheNewOperationStartsWithAminus(string currentOperationState, bool isStartingWithMinus)
+    {
+        if (isStartingWithMinus
+                    &&
+                    currentOperationState.Count(symbol =>
+                       symbol == '/'
+                    || symbol == 'x'
+                    || symbol == '+'
+                    || symbol == '-') == 1)
         {
-            leftPart = leftPart.Insert(0, "-");
-            currentOperationState = currentOperationState.Insert(0, "-");
-            indexOfOperatorSymbol += 1;
+            isStartingWithMinus = false;
+        }
+
+        return isStartingWithMinus;
+    }
+
+    private void ConsequencesOfStartingWithMinus(ref string currentOperationState, ref bool isStartingWithMinus)
+    {
+        if (currentOperationState.StartsWith('-'))
+        {
+            currentOperationState = currentOperationState.Remove(0, 1);
+            isStartingWithMinus = true;
         }
     }
 
-    private string SpecifyTheLeftPartOfTheOperation(string currentOperationState, int indexOfOperatorSymbol, string firstCurrentOperationState, ref int leftLimit)
+    private void DoesTheOperationContinue(string currentOperationState, string leftPart, string rightPart, List<string> outputItems, bool isStartingWithMinus, ref string propableExceptionMessage)
     {
-        string leftPart;
-        if (leftLimit == 0)
-        {
-            leftPart = firstCurrentOperationState.Substring(leftLimit, firstCurrentOperationState.Length);
-        }
-        else if (currentOperationState.Count(chr => chr == '/' || chr == 'x' || chr == '+' || chr == '-') == 1)
-        {
-            leftLimit = 0;
-            leftPart = firstCurrentOperationState.Substring(leftLimit, indexOfOperatorSymbol - leftLimit);
-        }
-        else
-        {
-            leftPart = firstCurrentOperationState.Substring(leftLimit + 1, indexOfOperatorSymbol - leftLimit - 1);
-        }
-
-        return leftPart;
-    }
-
-    private int FindTheLeftLimitOfCurrentOperationState(string firstCurrentOperationState)
-    {
-        return firstCurrentOperationState.LastIndexOf(firstCurrentOperationState.LastOrDefault(chr => chr == '/' || chr == 'x' || chr == '+' || chr == '-'));
-    }
-
-    private string FirstCurrentOperationState(string currentOperationState, int indexOfOperatorSymbol)
-    {
-        return currentOperationState.Substring(0, indexOfOperatorSymbol);
-    }
-
-    private bool CheckIfRightPartIsNegative(ref string currentOperationState, char operationSymbol, int indexOfOperatorSymbol)
-    {
-        bool rightPartIsNegative = false;
-
-        if ((operationSymbol == 'x' || operationSymbol == '/')
-            && indexOfOperatorSymbol < currentOperationState.Length - 1
-            && currentOperationState[indexOfOperatorSymbol + 1] == '-')
-        {
-            rightPartIsNegative = true;
-            currentOperationState = currentOperationState.Remove(indexOfOperatorSymbol + 1, 1);
-        }
-
-        return rightPartIsNegative;
-    }
-
-    private int PositionOfOperator(string currentOperationState, char operationSymbol)
-    {
-        return currentOperationState.IndexOf(operationSymbol);
+        if (currentOperationState.Any(chr => chr == '/'))
+            Operation(leftPart, rightPart, currentOperationState, '/', outputItems, isStartingWithMinus, ref propableExceptionMessage);
+        else if (currentOperationState.Any(chr => chr == 'x'))
+            Operation(leftPart, rightPart, currentOperationState, 'x', outputItems, isStartingWithMinus, ref propableExceptionMessage);
+        else if (currentOperationState.Any(chr => chr == '+'))
+            Operation(leftPart, rightPart, currentOperationState, '+', outputItems, isStartingWithMinus, ref propableExceptionMessage);
+        else if (currentOperationState.Any(chr => chr == '-'))
+            Operation(leftPart, rightPart, currentOperationState, '-', outputItems, isStartingWithMinus, ref propableExceptionMessage);
     }
     #endregion
 }
