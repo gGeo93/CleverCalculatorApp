@@ -13,6 +13,13 @@ public class OutputRelated
     #region OperationRelatedMainProcedure
     public void MakeNumericalOperationWithPriority(string currentOperationState, List<string> outputItems, ref string propableExceptionMessage)
     {
+        int lastInputChr = currentOperationState[currentOperationState.Length - 1];
+        if (lastInputChr == '/' || lastInputChr == 'x' || lastInputChr == '+' || lastInputChr == '-' || lastInputChr == ',') 
+        {
+            propableExceptionMessage = "The last character of the operation must be a digit not an operator";
+            return;
+        }
+
         outputItems.Add(currentOperationState);
         string leftPart = string.Empty;
         string rightPart = string.Empty;

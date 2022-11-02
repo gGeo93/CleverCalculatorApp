@@ -118,7 +118,10 @@ public class InputRelated
     private bool TryingToAddTwoMinusAtTheBeggining(char inputSymbol, string currentInputText) => currentInputText.Length == 1 && currentInputText[0] == '-' && inputSymbol == '-';
     private bool TheNumberOfDecimalPlacesAreBelowNine(char inputSymbol, string currentInputText) 
     {
-        return currentInputText.Substring(currentInputText.LastIndexOf(',')).Length < 10;
+        int lastCharPosition = currentInputText.LastIndexOf(',');
+        if(lastCharPosition != -1)
+            return currentInputText.Substring(currentInputText.LastIndexOf(',')).Length < 10;
+        return true;
     }
     #endregion
 }
