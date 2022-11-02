@@ -14,6 +14,7 @@ namespace CleverCalculator
         public CleverCalculatorForm()
         {
             InitializeComponent();
+            calculatorInput.Enabled = false;
             inputRelated = new InputRelated();
             outputRelated = new OutputRelated();
         }
@@ -22,9 +23,11 @@ namespace CleverCalculator
         #region Events
         private void Input_Btn(object sender, EventArgs e)
         {
+            calculatorInput.Enabled = true;
             Button inputBtn = (Button)sender;
             string inputTextFromBtn = inputBtn.Text;
             calculatorInput.Text = inputRelated.InputUpdated(inputTextFromBtn[0], calculatorInput.Text);
+            calculatorInput.Enabled = false;
         }
 
         private void Clear_Btn(object sender, EventArgs e)
