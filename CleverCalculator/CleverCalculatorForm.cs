@@ -41,12 +41,12 @@ namespace CleverCalculator
             List<string> partsOfTheOperation = new List<string>();
             string propableExceptionMessage = string.Empty;
             
-            outputRelated.MakeNumericalOperationWithPriority(calculatorInput.Text, partsOfTheOperation, ref propableExceptionMessage);
+            outputRelated.MakeNumericalOperationWithPriority(calculatorInput.Text, partsOfTheOperation);
             
             if (propableExceptionMessage != string.Empty)
                 MessageBox.Show(propableExceptionMessage);
             
-            partsOfTheOperation.ForEach(part => { outputList.Items.Add(part); });
+            partsOfTheOperation.ForEach(part => { outputList.Items.Add(part);});
         }
         #endregion
     }

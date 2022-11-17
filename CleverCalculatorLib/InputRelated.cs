@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CleverCalculatorLib;
+﻿namespace CleverCalculatorLib;
 
 public class InputRelated
 {
@@ -23,7 +16,7 @@ public class InputRelated
             return inputText;
         }
         if (inputText.Length == 0 && inputSymbol == '-') return "-";
-        if (inputText.StartsWith("-") && inputSymbol == '-') return "";
+        if (inputText.Length == 1 && inputText.StartsWith("-") && inputSymbol == '-') return "";
         if (inputText.Length == 0 && inputSymbol == '+') return "";
         if (inputText.EndsWith("-") && inputSymbol == '+')
         {
