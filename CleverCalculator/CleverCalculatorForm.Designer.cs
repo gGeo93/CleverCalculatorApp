@@ -52,9 +52,9 @@
             // btn0
             // 
             this.btn0.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btn0.Location = new System.Drawing.Point(246, 330);
+            this.btn0.Location = new System.Drawing.Point(187, 330);
             this.btn0.Name = "btn0";
-            this.btn0.Size = new System.Drawing.Size(63, 60);
+            this.btn0.Size = new System.Drawing.Size(122, 60);
             this.btn0.TabIndex = 0;
             this.btn0.Text = "0";
             this.btn0.UseVisualStyleBackColor = true;
@@ -162,9 +162,9 @@
             // btnComma
             // 
             this.btnComma.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnComma.Location = new System.Drawing.Point(187, 330);
+            this.btnComma.Location = new System.Drawing.Point(305, 332);
             this.btnComma.Name = "btnComma";
-            this.btnComma.Size = new System.Drawing.Size(63, 60);
+            this.btnComma.Size = new System.Drawing.Size(63, 59);
             this.btnComma.TabIndex = 10;
             this.btnComma.Text = ",";
             this.btnComma.UseVisualStyleBackColor = true;
@@ -173,7 +173,7 @@
             // btnResult
             // 
             this.btnResult.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnResult.Location = new System.Drawing.Point(365, 378);
+            this.btnResult.Location = new System.Drawing.Point(365, 331);
             this.btnResult.Name = "btnResult";
             this.btnResult.Size = new System.Drawing.Size(63, 60);
             this.btnResult.TabIndex = 11;
@@ -184,7 +184,7 @@
             // substractionBtn
             // 
             this.substractionBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.substractionBtn.Location = new System.Drawing.Point(365, 330);
+            this.substractionBtn.Location = new System.Drawing.Point(365, 276);
             this.substractionBtn.Name = "substractionBtn";
             this.substractionBtn.Size = new System.Drawing.Size(63, 60);
             this.substractionBtn.TabIndex = 12;
@@ -195,7 +195,7 @@
             // multiplicationBtn
             // 
             this.multiplicationBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.multiplicationBtn.Location = new System.Drawing.Point(365, 219);
+            this.multiplicationBtn.Location = new System.Drawing.Point(365, 163);
             this.multiplicationBtn.Name = "multiplicationBtn";
             this.multiplicationBtn.Size = new System.Drawing.Size(63, 60);
             this.multiplicationBtn.TabIndex = 13;
@@ -206,7 +206,7 @@
             // minusBtn
             // 
             this.minusBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.minusBtn.Location = new System.Drawing.Point(365, 163);
+            this.minusBtn.Location = new System.Drawing.Point(365, 110);
             this.minusBtn.Name = "minusBtn";
             this.minusBtn.Size = new System.Drawing.Size(63, 60);
             this.minusBtn.TabIndex = 14;
@@ -217,9 +217,9 @@
             // btnClear
             // 
             this.btnClear.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnClear.Location = new System.Drawing.Point(434, 219);
+            this.btnClear.Location = new System.Drawing.Point(187, 110);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(63, 117);
+            this.btnClear.Size = new System.Drawing.Size(181, 57);
             this.btnClear.TabIndex = 15;
             this.btnClear.Text = "C";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -227,7 +227,7 @@
             // 
             // calculatorInput
             // 
-            this.calculatorInput.Location = new System.Drawing.Point(187, 85);
+            this.calculatorInput.Location = new System.Drawing.Point(187, 28);
             this.calculatorInput.Multiline = true;
             this.calculatorInput.Name = "calculatorInput";
             this.calculatorInput.Size = new System.Drawing.Size(241, 58);
@@ -245,7 +245,7 @@
             // additionBtn
             // 
             this.additionBtn.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.additionBtn.Location = new System.Drawing.Point(365, 276);
+            this.additionBtn.Location = new System.Drawing.Point(365, 219);
             this.additionBtn.Name = "additionBtn";
             this.additionBtn.Size = new System.Drawing.Size(63, 60);
             this.additionBtn.TabIndex = 19;
